@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+	x:Class="Pripony.Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:util="clr-namespace:Util"
+	Title="Přípony"
+	UseLayoutRounding="True"
+	Width="1010"
+	AllowDrop="True"
+	x:Name="window1"
+	Drop="window1_Drop"
+	MinWidth="500"
+	MinHeight="150">
+	<Window.Background>
+		<RadialGradientBrush>
+			<RadialGradientBrush.GradientStops>
+				<GradientStop
+					Color="#FFFFFFFF"
+					Offset="0" />
+				<GradientStop
+					Color="#FFC6C6C6"
+					Offset="0.99" />
+				<GradientStop
+					Color="#FFE9E9E9"
+					Offset="0.42895442359249331" />
+			</RadialGradientBrush.GradientStops>
+		</RadialGradientBrush>
+	</Window.Background>
+	<DockPanel>
+		<Menu
+			DockPanel.Dock="Top">
+			<MenuItem
+				Header="Menu">
+				<MenuItem
+					Header="CSV Export"
+					x:Name="menuCSVE"
+					Click="menuCSVE_Click" />
+				<MenuItem
+					Header="CSV Import"
+					x:Name="menuCSVI"
+					Click="menuCSVI_Click" />
+				<Separator />
+				<MenuItem
+					Header="Konec"
+					Click="Konec_Click" />
+			</MenuItem>
+			<MenuItem
+				Header="Zobrazit"
+				RenderTransformOrigin="0.8,0.5">
+				<MenuItem
+					Header="Zobrazit všechno"
+					x:Name="menuZV"
+					IsCheckable="True"
+					IsChecked="True"
+					Click="ZV_Click" />
+				<MenuItem
+					Header="Zobrazit upravené přípony"
+					x:Name="menuZUP"
+					IsCheckable="True"
+					Click="ZUP_Click" />
+				<MenuItem
+					Header="Skrýt prázdné přípony"
+					x:Name="menuSPP"
+					IsCheckable="True"
+					IsChecked="True"
+					Click="SPP_Click" />
+			</MenuItem>
+		</Menu>
+		<Grid
+			Margin="5,5,5,5">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition
+					Width="Auto" />
+				<ColumnDefinition
+					Width="Auto" />
+				<ColumnDefinition
+					Width="*" />
+				<ColumnDefinition
+					Width="*" />
+				<ColumnDefinition
+					Width="55" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition
+					Height="Auto" />
+				<RowDefinition
+					Height="Auto" />
+				<RowDefinition
+					Height="Auto" />
+				<RowDefinition
+					Height="Auto" />
+				<RowDefinition
+					Height="25" />
+				<RowDefinition
+					Height="Auto" />
+				<RowDefinition
+					Height="49.1157556270096*" />
+			</Grid.RowDefinitions>
+			<ListView
+				SelectionChanged="listView1_SelectionChanged"
+				IsSynchronizedWithCurrentItem="True"
+				util:GridViewSort.AutoSort="True"
+				Foreground="#FF000000"
+				Grid.ColumnSpan="6"
+				Grid.Column="0"
+				Grid.Row="6"
+				VirtualizingStackPanel.IsVirtualizing="True"
+				VirtualizingStackPanel.VirtualizationMode="Recycling"
+				x:Name="listView1">
+				<ListView.View>
+					<GridView>
+						<GridViewColumn
+							util:GridViewSort.PropertyName="">
+							<GridViewColumn.Header>
+								<CheckBox
+									Name="chb_listview"
+									VerticalAlignment="Center"
+									IsChecked="false"
+									Click="chb_listview_Checked" />
+							</GridViewColumn.Header>
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<CheckBox
+										IsChecked="{Binding lvzaskrknuto}" />
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+						<GridViewColumn
+							Width="Auto">
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<Image
+										Source="{Binding lvobrazek}"
+										Height="16"
+										Width="16" />
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+						<GridViewColumn
+							Header="Přípona"
+							Width="Auto"
+							DisplayMemberBinding="{Binding lvpripona}"
+							util:GridViewSort.PropertyName="lvpripona" />
+						<GridViewColumn
+							Header="Typ"
+							Width="Auto"
+							DisplayMemberBinding="{Binding lvtyp}"
+							util:GridViewSort.PropertyName="lvtyp" />
+						<GridViewColumn
+							Header="Program"
+							Width="300"
+							DisplayMemberBinding="{Binding lvprogram}"
+							util:GridViewSort.PropertyName="lvprogram" />
+						<GridViewColumn
+							Header="Ikona"
+							Width="300"
+							DisplayMemberBinding="{Binding lvikona}"
+							util:GridViewSort.PropertyName="lvikona" />
+					</GridView>
+				</ListView.View>
+			</ListView>
+			<TextBox
+				x:Name="tbpripona"
+				TextChanged="tbpripona_TextChanged"
+				Grid.Column="2"
+				Grid.Row="1"
+				FontSize="13"
+				VerticalAlignment="Center"
+				Margin="0,0,2,0"
+				Background="#FFFFFFFF"></TextBox>
+			<TextBox
+				Grid.ColumnSpan="2"
+				Grid.Column="3"
+				Grid.Row="1"
+				x:Name="tbtyp"
+				FontSize="13"
+				VerticalAlignment="Center"
+				Background="#FFFFFFFF"></TextBox>
+			<Button
+				Content="Obnovit"
+				x:Name="tobnovit"
+				Click="tobnovit_Click"
+				Grid.Column="0"
+				Grid.Row="1"
+				FontWeight="SemiBold"
+				Padding="10,0,10,0"></Button>
+			<Button
+				Content="Program"
+				x:Name="tprogram"
+				Click="tprogram_Click"
+				Grid.Column="0"
+				Grid.Row="2"
+				FontWeight="SemiBold"
+				Padding="10,0,10,0"
+				Margin="0,2,0,2" />
+			<Button
+				Content="Změnit"
+				x:Name="tbzmenit"
+				Click="tbzmenit_Click"
+				Grid.Column="1"
+				Grid.Row="1"
+				FontWeight="SemiBold"
+				Margin="2,0,2,0"
+				Padding="12,0,12,0" />
+			<Button
+				x:Name="tikona"
+				Click="tikona_Click"
+				Content="Ikona"
+				Grid.Column="0"
+				Grid.Row="3"
+				FontWeight="SemiBold"
+				Padding="10,0,10,0"></Button>
+			<TextBox
+				x:Name="tbprogram"
+				Grid.Column="2"
+				Grid.Row="2"
+				FontSize="13"
+				VerticalAlignment="Center"
+				Margin="0,2,2,2" />
+			<TextBox
+				Grid.ColumnSpan="2"
+				Grid.Column="3"
+				Grid.Row="2"
+				x:Name="tbparam"
+				FontSize="13"
+				VerticalAlignment="Center" />
+			<TextBox
+				TextChanged="tbikona_TextChanged"
+				x:Name="tbikona"
+				FontSize="13"
+				VerticalAlignment="Center"
+				Grid.Row="3"
+				Grid.ColumnSpan="2"
+				Grid.Column="2"
+				Margin="0,0,2,0" />
+			<TextBox
+				TextChanged="tbindex_TextChanged"
+				Grid.Column="4"
+				Grid.Row="3"
+				x:Name="tbindex"
+				FontSize="13"
+				VerticalAlignment="Center" />
+			<TextBlock
+				IsHitTestVisible="False"
+				Text="Přípona"
+				Grid.Row="1"
+				Grid.Column="2"
+				Foreground="DarkGray"
+				FontSize="13"
+				VerticalAlignment="Center"
+				Margin="5,0,0,0">
+				<TextBlock.Style>
+					<Style
+						TargetType="{x:Type TextBlock}">
+						<Setter
+							Property="Visibility"
+							Value="Collapsed" />
+						<Style.Triggers>
+							<DataTrigger
+								Binding="{Binding Text, ElementName=tbpripona}"
+								Value="">
+								<Setter
+									Property="Visibility"
+									Value="Visible" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</TextBlock.Style>
+			</TextBlock>
+			<TextBlock
+				IsHitTestVisible="False"
+				Text="Typ"
+				Grid.Row="1"
+				Grid.Column="3"
+				Foreground="DarkGray"
+				FontSize="13"
+				VerticalAlignment="Center"
+				Margin="5,0,0,0"
+				Grid.ColumnSpan="2">
+				<TextBlock.Style>
+					<Style
+						TargetType="{x:Type TextBlock}">
+						<Setter
+							Property="Visibility"
+							Value="Collapsed" />
+						<Style.Triggers>
+							<DataTrigger
+								Binding="{Binding Text, ElementName=tbtyp}"
+								Value="">
+								<Setter
+									Property="Visibility"
+									Value="Visible" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</TextBlock.Style>
+			</TextBlock>
+			<TextBlock
+				IsHitTestVisible="False"
+				Text="Program"
+				Grid.Row="2"
+				Grid.Column="2"
+				Foreground="DarkGray"
+				FontSize="13"
+				VerticalAlignment="Center"
+				Margin="5,0,0,0">
+				<TextBlock.Style>
+					<Style
+						TargetType="{x:Type TextBlock}">
+						<Setter
+							Property="Visibility"
+							Value="Collapsed" />
+						<Style.Triggers>
+							<DataTrigger
+								Binding="{Binding Text, ElementName=tbprogram}"
+								Value="">
+								<Setter
+									Property="Visibility"
+									Value="Visible" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</TextBlock.Style>
+			</TextBlock>
+			<TextBlock
+				IsHitTestVisible="False"
+				Text="Parametr"
+				Grid.Row="2"
+				Grid.Column="3"
+				FontSize="13"
+				Foreground="DarkGray"
+				VerticalAlignment="Center"
+				Margin="5,0,0,0">
+				<TextBlock.Style>
+					<Style
+						TargetType="{x:Type TextBlock}">
+						<Setter
+							Property="Visibility"
+							Value="Collapsed" />
+						<Style.Triggers>
+							<DataTrigger
+								Binding="{Binding Text, ElementName=tbparam}"
+								Value="">
+								<Setter
+									Property="Visibility"
+									Value="Visible" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</TextBlock.Style>
+			</TextBlock>
+			<TextBlock
+				IsHitTestVisible="False"
+				Text="Ikona"
+				Grid.Row="3"
+				Grid.Column="2"
+				FontSize="13"
+				Foreground="DarkGray"
+				VerticalAlignment="Center"
+				Margin="5,0,0,0">
+				<TextBlock.Style>
+					<Style
+						TargetType="{x:Type TextBlock}">
+						<Setter
+							Property="Visibility"
+							Value="Collapsed" />
+						<Style.Triggers>
+							<DataTrigger
+								Binding="{Binding Text, ElementName=tbikona}"
+								Value="">
+								<Setter
+									Property="Visibility"
+									Value="Visible" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</TextBlock.Style>
+			</TextBlock>
+			<TextBlock
+				IsHitTestVisible="False"
+				Text="Index"
+				Grid.Row="3"
+				Grid.Column="4"
+				Foreground="DarkGray"
+				FontSize="13"
+				VerticalAlignment="Center"
+				Margin="5,0,0,0">
+				<TextBlock.Style>
+					<Style
+						TargetType="{x:Type TextBlock}">
+						<Setter
+							Property="Visibility"
+							Value="Collapsed" />
+						<Style.Triggers>
+							<DataTrigger
+								Binding="{Binding Text, ElementName=tbporadi}"
+								Value="">
+								<Setter
+									Property="Visibility"
+									Value="Visible" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</TextBlock.Style>
+			</TextBlock>
+			<TextBlock
+				x:Name="obikona"
+				UseLayoutRounding="True"
+				RenderOptions.BitmapScalingMode="NearestNeighbor"
+				MouseLeftButtonUp="obikona_MouseLeftButtonUp"
+				Grid.RowSpan="2"
+				Grid.Row="2"
+				Grid.Column="1">
+				<TextBlock.Background>
+					<ImageBrush
+						Stretch="None"
+						x:Name="obrazek" />
+				</TextBlock.Background>
+			</TextBlock>
+			<Button
+				Content="CSV export"
+				x:Name="tExport"
+				Click="tExport_Click"
+				MinWidth="80"
+				FontWeight="SemiBold"
+				Grid.Row="5"
+				Padding="5,0,5,0"
+				Margin="0,0,0,1" />
+			<Button
+				HorizontalAlignment="Left"
+				Content="Obnovit"
+				x:Name="tZmenaLV"
+				Click="tZmenaLV_Click"
+				MinWidth="80"
+				FontWeight="SemiBold"
+				Grid.Row="5"
+				Grid.Column="1"
+				Padding="5,2,5,2"
+				Margin="2,0,2,1" />
+		</Grid>
+	</DockPanel>
+</Window>
