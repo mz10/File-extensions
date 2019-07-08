@@ -7,3 +7,5 @@ It is possible export and import selected extensions to CSV format.
 The program is in C#/WPF.
 
 [Download](https://github.com/mz10/File-extensions/blob/master/Pripony/bin/Release/Pripony.exe?raw=true)
+
+![Preview](https://raw.githubusercontent.com/mz10/File-extensions/master/nahled.png)
